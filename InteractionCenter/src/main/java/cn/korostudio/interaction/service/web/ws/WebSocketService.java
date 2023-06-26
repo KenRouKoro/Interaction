@@ -17,7 +17,7 @@ import org.noear.solon.core.message.Session;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
-@ServerEndpoint(path = "/ws/{id}")
+@ServerEndpoint(path = "/ws")
 @Slf4j
 public class WebSocketService implements Listener {
     private final KryoUtil<BaseMessage> serializable = new KryoUtil<>(BaseMessage.class);

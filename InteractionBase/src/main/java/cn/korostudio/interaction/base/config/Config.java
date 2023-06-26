@@ -15,6 +15,7 @@ public class Config {
     };
     public static boolean enableCenter = true;
     public static String ConnectToken="HelloWorld";
+    public static boolean isCenter = false;
 
 
 }

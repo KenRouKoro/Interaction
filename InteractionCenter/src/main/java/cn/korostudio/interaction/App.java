@@ -2,20 +2,14 @@ package cn.korostudio.interaction;
 
 import cn.korostudio.interaction.base.BaseClient;
 import cn.korostudio.interaction.base.config.Config;
-import cn.korostudio.interaction.base.service.PlatformMessage;
 import cn.korostudio.interaction.config.AppConfig;
 import cn.korostudio.interaction.config.PersistenceJPAConfig;
-import cn.korostudio.interaction.base.data.Server;
 import cn.korostudio.interaction.inject.SpringJpaRepository;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.noear.solon.Solon;
 import org.noear.solon.annotation.*;
 import org.noear.solon.web.cors.CrossFilter;
-import org.smartboot.http.server.WebSocketRequest;
-import org.smartboot.http.server.WebSocketResponse;
-import org.smartboot.http.server.handler.WebSocketDefaultHandler;
-import org.smartboot.http.server.handler.WebSocketRouteHandler;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
@@ -41,6 +35,7 @@ public class App {
             app.filter(-1, new CrossFilter().allowedOrigins("*")); //加-1 优先级更高
             app.enableWebSocket(true);
             app.enableWebSocketMvc(false);
+            app.enableWebSocketD(false);
             Solon.context().beanInjectorAdd(SpringJpaRepository.class,((fwT, anno) -> {
                 fwT.required(false);
                 Class<?> type= fwT.getType();
@@ -53,7 +48,7 @@ public class App {
                 fwT.setValue(context.getBean(type));
             }));
         });
-
+        Config.isCenter=true;
 
         BaseClient.init("*/30 * * * * *");
 

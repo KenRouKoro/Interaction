@@ -1,6 +1,9 @@
 package cn.korostudio.interaction.base.service;
 
 import cn.hutool.core.thread.ThreadUtil;
+import cn.hutool.core.util.URLUtil;
+import cn.korostudio.interaction.base.BaseClient;
+import cn.korostudio.interaction.base.config.Config;
 import cn.korostudio.interaction.base.data.Server;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -33,13 +36,18 @@ public class PlatformConnect {
     protected static PlatformConnect platformConnect = new PlatformConnect();
     public void connectServer(Server server){
         Server hasServer = getServerMap().get(server.getId());
+        Connect connect = connectMap.get(server.getId());
         if (hasServer!=null){
             hasServer.setService(server.getService());
             return;
         }
+        if (connect != null){
+            getServerMap().put(server.getId(),server);
+            return;
+        }
         WebSocketClient client;
         try {
-            client = new WebSocketClient(new URI((server.isUseSSL()?"wss":"ws")+"://"+server.getAddress()+(server.getPort()!=-1?":"+server.getPort():"")),server);
+            client = new WebSocketClient(new URI((server.isUseSSL()?"wss":"ws")+"://"+server.getAddress()+(server.getPort()>=0?":"+server.getPort():"")+"?token="+ URLUtil.encode(Config.ConnectToken)+"&id="+URLUtil.encode(BaseClient.getMine().getId())),server);
         } catch (URISyntaxException e) {
             log.error("拼接URI失败",e);
             return;
