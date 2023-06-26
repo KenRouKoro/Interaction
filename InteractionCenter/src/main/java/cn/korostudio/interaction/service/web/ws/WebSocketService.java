@@ -2,9 +2,11 @@ package cn.korostudio.interaction.service.web.ws;
 
 import cn.hutool.core.util.StrUtil;
 import cn.korostudio.interaction.App;
+import cn.korostudio.interaction.base.config.Config;
 import cn.korostudio.interaction.base.data.BaseMessage;
+import cn.korostudio.interaction.base.service.PlatformConnect;
+import cn.korostudio.interaction.base.service.PlatformMessage;
 import cn.korostudio.interaction.base.util.KryoUtil;
-import cn.korostudio.interaction.service.CenterPlatformMessage;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.noear.solon.annotation.ServerEndpoint;
@@ -25,8 +27,9 @@ public class WebSocketService implements Listener {
     public void onOpen(Session session){
         String token = session.param("token");
         String id = session.param("id");
-        if (StrUtil.isBlankIfStr(token)|| !App.ConnectToken.equals(token)){
+        if (StrUtil.isBlankIfStr(token)|| !Config.ConnectToken.equals(token)){
             try {
+                session.send("错误的Token");
                 session.close();
             } catch (IOException e) {
                 log.error("ws握手关闭失败",e);
@@ -35,12 +38,13 @@ public class WebSocketService implements Listener {
             return;
         }
         sessionMap.put(id,session);
+        PlatformConnect.getConnectMap().put(id,new ConnectSession(session));
         log.info("与{}的握手完成",id);
     }
     @Override
     public void onMessage(Session session, Message message){
         String id = session.param("id");
-        CenterPlatformMessage.getMessage(serializable.deserialize(message.body()));
+        PlatformMessage.getMessage(serializable.deserialize(message.body()));
         log.debug("收到{}的信息",id);
 
     }
@@ -48,12 +52,14 @@ public class WebSocketService implements Listener {
     public void onClose(Session session) {
         String id = session.param("id");
         sessionMap.remove(id);
+        PlatformConnect.removeServer(id);
         log.info("与{}的连接关闭",id);
     }
     @Override
     public void onError(Session session, Throwable error) {
         String id = session.param("id");
         sessionMap.remove(id);
+        PlatformConnect.removeServer(id);
         log.error("与{}连接发生错误",id,error);
     }
 

@@ -27,14 +27,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @Slf4j
 @ComponentScan(basePackageClasses = {AppConfig.class, PersistenceJPAConfig.class})
 public class App {
-    public static Server server = new Server();
-    public static String ConnectToken="HelloWorld";
+
     @Getter
     @SuppressWarnings("resource")
     private static ApplicationContext context;
-
     static{
-        server = Config.centerServer;
+        BaseClient.setMine(Config.centerServer);
     }
 
     public static void main(String[] args) {

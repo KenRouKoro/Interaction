@@ -9,15 +9,17 @@ import cn.korostudio.interaction.base.event.ServiceMessageBus;
 import cn.korostudio.interaction.base.service.PlatformConnect;
 import cn.korostudio.interaction.base.service.PlatformMessage;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-public  class BaseClient {
+public class BaseClient {
 
     @Getter
+    @Setter
     private static Server mine ;
 
     /**

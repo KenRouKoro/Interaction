@@ -13,6 +13,8 @@ public class Config {
             setUseSSL(false);
         }
     };
+    public static boolean enableCenter = true;
+    public static String ConnectToken="HelloWorld";
 
 
 }

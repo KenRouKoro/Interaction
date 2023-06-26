@@ -1,19 +1,23 @@
 package cn.korostudio.interaction.base.service;
 
 import cn.hutool.core.text.StrSplitter;
+import cn.hutool.core.thread.ThreadUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.korostudio.interaction.base.BaseClient;
 import cn.korostudio.interaction.base.data.BaseMessage;
 import cn.korostudio.interaction.base.event.ServiceMessageBus;
+import cn.korostudio.interaction.base.util.KryoUtil;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 @Slf4j
-public abstract class PlatformMessage {
+public class PlatformMessage {
+    @Getter
+    protected static final KryoUtil<BaseMessage> serializable = new KryoUtil<>(BaseMessage.class);
+    protected static final ExecutorService messageWorker = ThreadUtil.newFixedExecutor(8,"message-worker",true);
     public static final String ALL = "ALL";
     public static final String LOOP = "LOOP";
 
@@ -29,13 +33,13 @@ public abstract class PlatformMessage {
             return;
         }
         if (message.getTarget().equals(ALL)){
-            PlatformConnect.getServers().values().forEach(server->{
+            PlatformConnect.getServerMap().values().forEach(server->{
                 BaseMessage sendMessage = new BaseMessage();
                 sendMessage.setForm(message.getForm());
                 sendMessage.setService(message.getService());
                 sendMessage.setMessage(message.getMessage());
                 sendMessage.setTarget(server.getId());
-                platformMessage.sendMessage(sendMessage);
+                sendMessage(sendMessage);
             });
             return;
         }
@@ -47,12 +51,32 @@ public abstract class PlatformMessage {
             sendMessage.setService(message.getService());
             sendMessage.setMessage(message.getMessage());
             sendMessage.setTarget(str);
-            platformMessage.sendMessage(sendMessage);
+            sendMessage(sendMessage);
         });
     }
     public static void getMessage(BaseMessage message) {
         ServiceMessageBus.push(message);
     }
+    public static void getMessage(byte[] message) {
+        ServiceMessageBus.push(serializable.deserialize(message));
+    }
 
-    public abstract void sendMessage(BaseMessage message);
+    protected static void sendMessage(BaseMessage message){
+        String target = message.getTarget();
+        message.setForm(BaseClient.getMine().getAddress());
+        if (StrUtil.isBlankIfStr(target)||target.equals("NONE")){
+            log.warn("空发送对象,取消信息发送");
+            return;
+        }
+        Connect session = PlatformConnect.getConnectMap().get(target);
+        if (session!=null){
+            try {
+                messageWorker.execute(()->{
+                    session.sendMessage(serializable.serialize(message));
+                });
+            }catch (Exception e){
+                log.error("送信执行线程异常",e);
+            }
+        }
+    }
 }
