@@ -1,0 +1,80 @@
+import org.gradle.api.file.DuplicatesStrategy
+
+plugins {
+    id "java"
+    id "maven-publish"
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "https://mirrors.cloud.tencent.com/nexus/repository/maven-public/" }
+}
+
+group = "cn.korostudio"
+version = "1.0"
+description = "InteractionCenter"
+
+
+dependencies {
+    implementation platform("org.noear:solon-parent:2.2.20")
+    
+    implementation("org.noear:solon-lib")
+    implementation("org.noear:solon-web")
+    implementation("org.noear:solon.boot.smarthttp")
+    //implementation("org.noear:solon.logging.logback")
+    implementation("org.noear:solon.i18n")
+
+    implementation 'ch.qos.logback:logback-core:1.4.7'
+    implementation 'ch.qos.logback:logback-classic:1.4.7'
+    implementation 'ch.qos.logback:logback-access:1.4.7'
+
+
+
+    implementation 'cn.hutool:hutool-all:5.8.16'
+
+    testImplementation("org.noear:solon-test")
+
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.26'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+    implementation 'org.springframework:spring-core:6.0.9'
+    implementation 'org.springframework:spring-context:6.0.9'
+    implementation 'org.hibernate:hibernate-core:6.2.3.Final'
+    implementation 'com.h2database:h2:2.1.212'
+    implementation 'org.springframework.data:spring-data-jpa:3.1.0'
+    implementation group: 'org.java-websocket', name: 'Java-WebSocket', version: '1.5.3'
+
+
+    implementation project(':InteractionBase')
+
+}
+
+
+compileJava {
+    options.encoding = "UTF-8"
+    options.compilerArgs << "-parameters"
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "cn.korostudio.interaction.App"
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from(configurations.runtimeClasspath.collect {
+        if (it.isDirectory()) it else zipTree(it)
+    }){
+        exclude 'META-INF/MANIFEST.MF'
+        exclude 'META-INF/*.SF'
+        exclude 'META-INF/*.DSA'
+        exclude 'META-INF/*.RSA'
+    }
+    
+    def sourcesMain = sourceSets.main
+    sourcesMain.allSource.forEach { println("add from sources: ${it.name}") }
+    from(sourcesMain.output)
+}
