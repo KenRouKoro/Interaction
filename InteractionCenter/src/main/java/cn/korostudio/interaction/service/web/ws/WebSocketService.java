@@ -4,6 +4,9 @@ import cn.hutool.core.util.StrUtil;
 import cn.korostudio.interaction.App;
 import cn.korostudio.interaction.base.config.Config;
 import cn.korostudio.interaction.base.data.BaseMessage;
+import cn.korostudio.interaction.base.event.EventBus;
+import cn.korostudio.interaction.base.event.connect.ConnectEvent;
+import cn.korostudio.interaction.base.event.connect.ConnectStatus;
 import cn.korostudio.interaction.base.service.PlatformConnect;
 import cn.korostudio.interaction.base.service.PlatformMessage;
 import cn.korostudio.interaction.base.util.KryoUtil;
@@ -39,6 +42,7 @@ public class WebSocketService implements Listener {
         }
         sessionMap.put(id,session);
         PlatformConnect.getConnectMap().put(id,new ConnectSession(session));
+        EventBus.push(new ConnectEvent(id, ConnectStatus.OnOpen));
         log.info("与{}的握手完成",id);
     }
     @Override

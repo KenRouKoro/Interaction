@@ -35,6 +35,9 @@ public class PlatformConnect {
     @Getter
     protected static PlatformConnect platformConnect = new PlatformConnect();
     public void connectServer(Server server){
+        if(server.getId().equals(BaseClient.getMine().getId())){
+            return;
+        }
         Server hasServer = getServerMap().get(server.getId());
         Connect connect = connectMap.get(server.getId());
         if (hasServer!=null){
@@ -45,6 +48,7 @@ public class PlatformConnect {
             getServerMap().put(server.getId(),server);
             return;
         }
+
         WebSocketClient client;
         try {
             client = new WebSocketClient(new URI((server.isUseSSL()?"wss":"ws")+"://"+server.getAddress()+(server.getPort()>=0?":"+server.getPort():"")+"?token="+ URLUtil.encode(Config.ConnectToken)+"&id="+URLUtil.encode(BaseClient.getMine().getId())),server);

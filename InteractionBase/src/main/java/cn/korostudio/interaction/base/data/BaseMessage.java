@@ -25,8 +25,17 @@ public class BaseMessage implements Serializable {
         this(service);
         this.message = data;
     }
-    public BaseMessage(String service,String message){
-        this(service,message.getBytes(CharsetUtil.CHARSET_UTF_8));
+    public BaseMessage(String service,String target,byte[] data){
+        this(service);
+        this.target = target;
+        this.message = data;
+    }
+    public BaseMessage(String service,String target){
+        this(service);
+        this.target = target;
+    }
+    public BaseMessage(String service,String target,String message){
+        this(service,target,message.getBytes(CharsetUtil.CHARSET_UTF_8));
     }
 
     public void setMessage(byte[] message) {

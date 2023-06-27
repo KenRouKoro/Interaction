@@ -1,6 +1,9 @@
 package cn.korostudio.interaction.base.service;
 
 import cn.korostudio.interaction.base.config.Config;
+import cn.korostudio.interaction.base.event.EventBus;
+import cn.korostudio.interaction.base.event.connect.ConnectEvent;
+import cn.korostudio.interaction.base.event.connect.ConnectStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.smartboot.http.server.WebSocketRequest;
 import org.smartboot.http.server.WebSocketResponse;
@@ -23,6 +26,7 @@ public class WebSocketServer extends WebSocketDefaultHandler {
             }
             WebSocketServerConnect mine = new WebSocketServerConnect(response);
             PlatformConnect.getConnectMap().put(id, mine);
+            EventBus.push(new ConnectEvent(id, ConnectStatus.OnOpen));
         }catch (Exception e){
             log.error("握手失败",e);
             response.close();
@@ -44,7 +48,6 @@ public class WebSocketServer extends WebSocketDefaultHandler {
     }
 
     public static class WebSocketServerConnect implements Connect{
-        String id;
         WebSocketResponse webSocketResponse;
         public WebSocketServerConnect(WebSocketResponse webSocketResponse){
             this.webSocketResponse = webSocketResponse;

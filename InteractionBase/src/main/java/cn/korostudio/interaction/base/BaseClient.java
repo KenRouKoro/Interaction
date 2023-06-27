@@ -1,12 +1,17 @@
 package cn.korostudio.interaction.base;
 
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.cron.CronUtil;
 import cn.hutool.cron.task.Task;
 import cn.korostudio.interaction.base.config.Config;
 import cn.korostudio.interaction.base.data.BaseMessage;
 import cn.korostudio.interaction.base.data.Server;
+import cn.korostudio.interaction.base.event.EventBus;
 import cn.korostudio.interaction.base.event.ServiceMessageBus;
+import cn.korostudio.interaction.base.event.connect.ConnectEvent;
+import cn.korostudio.interaction.base.event.connect.ConnectStatus;
 import cn.korostudio.interaction.base.service.PlatformConnect;
 import cn.korostudio.interaction.base.service.PlatformMessage;
 import lombok.Getter;
@@ -16,6 +21,7 @@ import org.smartboot.http.server.handler.WebSocketDefaultHandler;
 import org.smartboot.http.server.handler.WebSocketRouteHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -33,7 +39,8 @@ public class BaseClient {
     /**
      * 初始化方法，启动内部定时器,注册默认回调
      */
-    public static void init(String heartTime){
+    public static void init(String heartTime,Server mine){
+        BaseClient.mine = mine;
         CronUtil.schedule(heartTime, (Task) () -> {
 
         });
@@ -42,14 +49,38 @@ public class BaseClient {
 
         ServiceMessageBus.subscribe("server_info",message -> {
             Server server = ObjectUtil.deserialize(message.getMessage());
+            if (PlatformConnect.getConnectMap().get(server.getId())==null){
+                BaseMessage baseMessage = new BaseMessage("server_info",PlatformMessage.ALL,ObjectUtil.serialize(server));
+                PlatformMessage.send(baseMessage);
+            }
             PlatformConnect.connect(server);
         });
 
         ServiceMessageBus.subscribe("server_info_list",message -> {
-            ArrayList<Server> serverList = ObjectUtil.deserialize(message.getMessage());
+            List<Server> serverList = ObjectUtil.deserialize(message.getMessage());
             serverList.forEach(PlatformConnect::connect);
         });
-        if (!Config.enableCenter){
+
+        ServiceMessageBus.subscribe("get_server_info",message -> {
+            String target = message.getForm();
+            BaseMessage baseMessage = new BaseMessage("server_info",target,ObjectUtil.serialize(BaseClient.getMine()));
+            PlatformMessage.send(baseMessage);
+        });
+
+        ServiceMessageBus.subscribe("get_server_info_list",message -> {
+            String target = message.getForm();
+            BaseMessage baseMessage = new BaseMessage("server_info_list",target,ObjectUtil.serialize(ListUtil.toList(PlatformConnect.getServerMap().values())));
+            PlatformMessage.send(baseMessage);
+        });
+
+        EventBus.subscribe(ConnectEvent.class,event->{
+            if (event.getStatus()== ConnectStatus.OnOpen){
+                PlatformMessage.send(new BaseMessage("get_server_info",event.getId()));
+                PlatformMessage.send(new BaseMessage("get_server_info_list",event.getId()));
+            }
+        });
+
+        if (!Config.isCenter){
             bootstrap = new HttpBootstrap();
             bootstrap.setPort(mine.getPort());
             routeHandle = new WebSocketRouteHandler();

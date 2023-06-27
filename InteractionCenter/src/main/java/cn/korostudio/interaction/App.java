@@ -25,9 +25,6 @@ public class App {
     @Getter
     @SuppressWarnings("resource")
     private static ApplicationContext context;
-    static{
-        BaseClient.setMine(Config.centerServer);
-    }
 
     public static void main(String[] args) {
         context = new AnnotationConfigApplicationContext(App.class);//优先载入SpringDataJPA
@@ -50,7 +47,7 @@ public class App {
         });
         Config.isCenter=true;
 
-        BaseClient.init("*/30 * * * * *");
+        BaseClient.init("*/30 * * * * *",Config.centerServer);
 
     }
 }

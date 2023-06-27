@@ -1,6 +1,9 @@
 package cn.korostudio.interaction.base.service;
 
 import cn.korostudio.interaction.base.data.Server;
+import cn.korostudio.interaction.base.event.EventBus;
+import cn.korostudio.interaction.base.event.connect.ConnectEvent;
+import cn.korostudio.interaction.base.event.connect.ConnectStatus;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
@@ -18,6 +21,7 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient i
     public void onOpen(ServerHandshake handshakedata) {
         PlatformConnect.getConnectMap().put(server.getId(),this);
         PlatformConnect.getServerMap().put(server.getId(),server);
+        EventBus.push(new ConnectEvent(server.getId(), ConnectStatus.OnOpen));
     }
 
     @Override
