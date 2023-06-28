@@ -1,0 +1,3 @@
+rootProject.name = 'Interaction'
+include 'interaction-base'
+include 'interaction-center'
