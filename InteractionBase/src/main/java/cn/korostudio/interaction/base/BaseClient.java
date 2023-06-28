@@ -39,13 +39,8 @@ public class BaseClient {
     /**
      * 初始化方法，启动内部定时器,注册默认回调
      */
-    public static void init(String heartTime,Server mine){
+    public static void init(Server mine){
         BaseClient.mine = mine;
-        CronUtil.schedule(heartTime, (Task) () -> {
-
-        });
-        CronUtil.setMatchSecond(true);
-        CronUtil.start(true);
 
         ServiceMessageBus.subscribe("server_info",message -> {
             Server server = ObjectUtil.deserialize(message.getMessage());
@@ -86,6 +81,10 @@ public class BaseClient {
             routeHandle = new WebSocketRouteHandler();
             routeHandle.route("/ws",new WebSocketDefaultHandler());
             bootstrap.start();
+        }
+
+        if(Config.enableCenter){
+            PlatformConnect.connect(Config.centerServer);
         }
 
 
