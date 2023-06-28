@@ -3,7 +3,6 @@ plugins {
     id 'maven-publish'
 }
 group = 'cn.korostudio'
-version = '1.0'
 
 repositories {
     mavenCentral()
