@@ -1,4 +1,3 @@
-import org.gradle.api.file.DuplicatesStrategy
 
 plugins {
     id "java"
@@ -13,7 +12,7 @@ repositories {
 
 group = "cn.korostudio"
 version = "1.0"
-description = "InteractionCenter"
+description = "interaction-center"
 
 
 dependencies {
@@ -49,7 +48,7 @@ dependencies {
     implementation group: 'org.java-websocket', name: 'Java-WebSocket', version: '1.5.3'
 
 
-    implementation project(':InteractionBase')
+    implementation project(':interaction-base')
 
 }
 

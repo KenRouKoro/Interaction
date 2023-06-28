@@ -5,30 +5,26 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="C:/Program Files/gradle/gradle-7.6" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/ImteractionCore" />
           </set>
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/InteractionBase" />
-        <option name="gradleHome" value="C:/Program Files/gradle/gradle-7.6" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/interaction-base" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/InteractionBase" />
+            <option value="$PROJECT_DIR$/interaction-base" />
           </set>
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/InteractionCenter" />
-        <option name="gradleHome" value="C:/Program Files/gradle/gradle-7.6" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/interaction-center" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/InteractionBase" />
-            <option value="$PROJECT_DIR$/InteractionCenter" />
+            <option value="$PROJECT_DIR$/interaction-base" />
+            <option value="$PROJECT_DIR$/interaction-center" />
           </set>
         </option>
       </GradleProjectSettings>
