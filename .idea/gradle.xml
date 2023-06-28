@@ -4,17 +4,10 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/interaction-base" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/interaction-base" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/interaction-center" />
-        <option name="modules">
-          <set>
+            <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/interaction-base" />
             <option value="$PROJECT_DIR$/interaction-center" />
           </set>
