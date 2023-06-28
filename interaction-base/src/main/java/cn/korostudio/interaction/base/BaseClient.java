@@ -30,7 +30,7 @@ public class BaseClient {
     private static HttpBootstrap bootstrap;
 
     /**
-     * 初始化方法，启动内部定时器,注册默认回调
+     * 初始化方法，启动内部定时器，注册默认回调
      */
     public static void init(Server mine) {
         BaseClient.mine = mine;
