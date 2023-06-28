@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id 'maven-publish'
 }
-apply from:'../github_token.gradle'
 group = 'cn.korostudio'
 version = '1.0'
 
