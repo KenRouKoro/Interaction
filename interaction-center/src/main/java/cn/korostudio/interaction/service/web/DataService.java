@@ -13,39 +13,41 @@ import java.util.List;
 //用来代替NoSQL，性能很差
 public class DataService {
     @SpringJpaRepository
-    private KVDataRepository dataRepository ;
+    private KVDataRepository dataRepository;
 
     @Get
     @Mapping("/get")
-    public Result<String> get(@Param("key")String key){
+    public Result<String> get(@Param("key") String key) {
         KVData data = dataRepository.findByKVKey(key);
-        if (data == null){
-            return Result.failure(501,"key不存在");
+        if (data == null) {
+            return Result.failure(501, "key不存在");
         }
-        return Result.succeed(data.getKVData(),"ok");
+        return Result.succeed(data.getKVData(), "ok");
     }
+
     @Get
     @Mapping("/getall")
-    public Result<List<KVData>> getALL(){
+    public Result<List<KVData>> getALL() {
         List<KVData> data = dataRepository.findAll();
-        return Result.succeed(data,"ok");
+        return Result.succeed(data, "ok");
     }
 
     @Post
     @Mapping("/put")
-    public Result put(@Param("key")String key,@Param("data") String data){
-        if (key==null||data ==null){
-            return Result.failure(501,"key或data为空");
+    public Result put(@Param("key") String key, @Param("data") String data) {
+        if (key == null || data == null) {
+            return Result.failure(501, "key或data为空");
         }
         KVData kvData = new KVData();
         kvData.setKVKey(key);
         kvData.setKVData(data);
         dataRepository.saveAndFlush(kvData);
-        return Result.succeed(null,"ok");
+        return Result.succeed(null, "ok");
     }
+
     @Delete
     @Mapping("/delete")
-    public Result delete(@Param("key") String key){
+    public Result delete(@Param("key") String key) {
         dataRepository.deleteByKVKey(key);
         return Result.succeed();
     }

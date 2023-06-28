@@ -1,4 +1,3 @@
-
 plugins {
     id "java"
     id "maven-publish"
@@ -16,7 +15,7 @@ description = "interaction-center"
 
 dependencies {
     implementation platform("org.noear:solon-parent:2.2.20")
-    
+
     implementation("org.noear:solon-lib")
     implementation("org.noear:solon-web")
     implementation("org.noear:solon.boot.smarthttp")
@@ -26,7 +25,6 @@ dependencies {
     implementation 'ch.qos.logback:logback-core:1.4.7'
     implementation 'ch.qos.logback:logback-classic:1.4.7'
     implementation 'ch.qos.logback:logback-access:1.4.7'
-
 
 
     implementation 'cn.hutool:hutool-all:5.8.16'
@@ -65,13 +63,13 @@ jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from(configurations.runtimeClasspath.collect {
         if (it.isDirectory()) it else zipTree(it)
-    }){
+    }) {
         exclude 'META-INF/MANIFEST.MF'
         exclude 'META-INF/*.SF'
         exclude 'META-INF/*.DSA'
         exclude 'META-INF/*.RSA'
     }
-    
+
     def sourcesMain = sourceSets.main
     sourcesMain.allSource.forEach { println("add from sources: ${it.name}") }
     from(sourcesMain.output)

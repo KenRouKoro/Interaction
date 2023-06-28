@@ -15,25 +15,25 @@ import java.util.concurrent.ExecutorService;
 
 @Slf4j
 public class PlatformMessage {
-    @Getter
-    protected static final KryoUtil<BaseMessage> serializable = new KryoUtil<>(BaseMessage.class);
-    protected static final ExecutorService messageWorker = ThreadUtil.newFixedExecutor(8,"message-worker",true);
     public static final String ALL = "ALL";
     public static final String LOOP = "LOOP";
-
     @Getter
-    protected static PlatformMessage platformMessage=null;
-    public static void send(BaseMessage message){
-        if (platformMessage==null){
+    protected static final KryoUtil<BaseMessage> serializable = new KryoUtil<>(BaseMessage.class);
+    protected static final ExecutorService messageWorker = ThreadUtil.newFixedExecutor(8, "message-worker", true);
+    @Getter
+    protected static PlatformMessage platformMessage = null;
+
+    public static void send(BaseMessage message) {
+        if (platformMessage == null) {
             log.warn("未初始化任何送信通道，发送失败");
             return;
         }
-        if (message.getTarget().equals(LOOP)){
+        if (message.getTarget().equals(LOOP)) {
             getMessage(message);
             return;
         }
-        if (message.getTarget().equals(ALL)){
-            PlatformConnect.getServerMap().values().forEach(server->{
+        if (message.getTarget().equals(ALL)) {
+            PlatformConnect.getServerMap().values().forEach(server -> {
                 BaseMessage sendMessage = new BaseMessage();
                 sendMessage.setForm(message.getForm());
                 sendMessage.setService(message.getService());
@@ -45,7 +45,7 @@ public class PlatformMessage {
         }
         String target = message.getTarget();
         List<String> targetList = StrSplitter.split(target, ',', 0, true, true);//切割目标，逐一发送
-        targetList.forEach(str->{
+        targetList.forEach(str -> {
             BaseMessage sendMessage = new BaseMessage();
             sendMessage.setForm(message.getForm());
             sendMessage.setService(message.getService());
@@ -54,28 +54,30 @@ public class PlatformMessage {
             sendMessage(sendMessage);
         });
     }
+
     public static void getMessage(BaseMessage message) {
         ServiceMessageBus.push(message);
     }
+
     public static void getMessage(byte[] message) {
         ServiceMessageBus.push(serializable.deserialize(message));
     }
 
-    protected static void sendMessage(BaseMessage message){
+    protected static void sendMessage(BaseMessage message) {
         String target = message.getTarget();
         message.setForm(BaseClient.getMine().getAddress());
-        if (StrUtil.isBlankIfStr(target)||target.equals("NONE")){
+        if (StrUtil.isBlankIfStr(target) || target.equals("NONE")) {
             log.warn("空发送对象,取消信息发送");
             return;
         }
         Connect session = PlatformConnect.getConnectMap().get(target);
-        if (session!=null){
+        if (session != null) {
             try {
-                messageWorker.execute(()->{
+                messageWorker.execute(() -> {
                     session.sendMessage(serializable.serialize(message));
                 });
-            }catch (Exception e){
-                log.error("送信执行线程异常",e);
+            } catch (Exception e) {
+                log.error("送信执行线程异常", e);
             }
         }
     }

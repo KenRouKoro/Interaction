@@ -1,8 +1,6 @@
 package cn.korostudio.interaction.config;
 
 import jakarta.persistence.EntityManagerFactory;
-import org.hibernate.dialect.H2Dialect;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
@@ -32,6 +30,7 @@ public class PersistenceJPAConfig {
         em.setJpaProperties(additionalProperties());
         return em;
     }
+
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -41,6 +40,7 @@ public class PersistenceJPAConfig {
         dataSource.setPassword("123456");
         return dataSource;
     }
+
     @Bean
     public PlatformTransactionManager transactionManager(
             EntityManagerFactory emf
@@ -49,6 +49,7 @@ public class PersistenceJPAConfig {
         transactionManager.setEntityManagerFactory(emf);
         return transactionManager;
     }
+
     @Bean
     public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
         return new PersistenceExceptionTranslationPostProcessor();

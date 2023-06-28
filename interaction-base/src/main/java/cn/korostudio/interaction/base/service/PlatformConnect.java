@@ -12,65 +12,67 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
+
 @Slf4j
 public class PlatformConnect {
     @Getter
     private static final ConcurrentHashMap<String, Server> serverMap = new ConcurrentHashMap<>();
     @Getter
-    private static final ConcurrentHashMap<String,Connect>connectMap = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, Connect> connectMap = new ConcurrentHashMap<>();
     private static final ExecutorService connectWorker = ThreadUtil.newSingleExecutor();
     @Getter
-    private static final ConcurrentHashMap<String,Thread>connectThreadMap = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, Thread> connectThreadMap = new ConcurrentHashMap<>();
+    @Getter
+    protected static PlatformConnect platformConnect = new PlatformConnect();
 
-    public static void removeServer(String id){
+    public static void removeServer(String id) {
         serverMap.remove(id);
         connectMap.remove(id);
         connectThreadMap.remove(id);
     }
-    public static void removeServer(Server server){
+
+    public static void removeServer(Server server) {
         removeServer(server.getId());
     }
 
+    public static void connect(Server server) {
+        connectWorker.execute(() -> {
+            platformConnect.connectServer(server);
+        });
+    }
 
-    @Getter
-    protected static PlatformConnect platformConnect = new PlatformConnect();
-    public void connectServer(Server server){
-        if(server.getId().equals(BaseClient.getMine().getId())){
+    public void connectServer(Server server) {
+        if (server.getId().equals(BaseClient.getMine().getId())) {
             return;
         }
         Server hasServer = getServerMap().get(server.getId());
         Connect connect = connectMap.get(server.getId());
-        if (hasServer!=null){
+        if (hasServer != null) {
             hasServer.setService(server.getService());
             return;
         }
-        if (connect != null){
-            getServerMap().put(server.getId(),server);
+        if (connect != null) {
+            getServerMap().put(server.getId(), server);
             return;
         }
 
         WebSocketClient client;
         try {
-            client = new WebSocketClient(new URI((server.isUseSSL()?"wss":"ws")+"://"+server.getAddress()+(server.getPort()>=0?":"+server.getPort():"")+"?token="+ URLUtil.encode(Config.ConnectToken)+"&id="+URLUtil.encode(BaseClient.getMine().getId())),server);
+            client = new WebSocketClient(new URI((server.isUseSSL() ? "wss" : "ws") + "://" + server.getAddress() + (server.getPort() >= 0 ? ":" + server.getPort() : "") + "?token=" + URLUtil.encode(Config.ConnectToken) + "&id=" + URLUtil.encode(BaseClient.getMine().getId())), server);
         } catch (URISyntaxException e) {
-            log.error("拼接URI失败",e);
+            log.error("拼接URI失败", e);
             return;
         }
-        Thread clientThread = new Thread(()->{
+        Thread clientThread = new Thread(() -> {
             try {
                 client.connectBlocking();
             } catch (InterruptedException e) {
-                log.error("WebSocket客户端连接出错",e);
+                log.error("WebSocket客户端连接出错", e);
             }
         });
-        clientThread.setName("WSConnect-"+clientThread.getId());
-        connectThreadMap.put(server.getId(),clientThread);
+        clientThread.setName("WSConnect-" + clientThread.getId());
+        connectThreadMap.put(server.getId(), clientThread);
         clientThread.start();
 
-    }
-    public static void connect(Server server){
-        connectWorker.execute(()->{
-            platformConnect.connectServer(server);
-        });
     }
 }

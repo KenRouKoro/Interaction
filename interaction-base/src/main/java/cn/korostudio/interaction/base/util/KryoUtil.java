@@ -6,8 +6,11 @@ import com.esotericsoftware.kryo.kryo5.io.Input;
 import com.esotericsoftware.kryo.kryo5.io.Output;
 import com.esotericsoftware.kryo.kryo5.serializers.BeanSerializer;
 
-public class KryoUtil <T>{
+public class KryoUtil<T> {
 
+    final ThreadLocal<Output> outputLocal = new ThreadLocal<Output>();
+    final ThreadLocal<Input> inputLocal = new ThreadLocal<Input>();
+    private Class<?> ct = null;
     // 由于kryo不是线程安全的，所以每个线程都使用独立的kryo
     final ThreadLocal<Kryo> kryoLocal = new ThreadLocal<Kryo>() {
         @Override
@@ -17,9 +20,6 @@ public class KryoUtil <T>{
             return kryo;
         }
     };
-    final ThreadLocal<Output> outputLocal = new ThreadLocal<Output>();
-    final ThreadLocal<Input> inputLocal = new ThreadLocal<Input>();
-    private Class<?> ct = null;
 
     public KryoUtil(Class<?> ct) {
         this.ct = ct;
@@ -35,7 +35,7 @@ public class KryoUtil <T>{
 
     public byte[] serialize(T obj) {
         Kryo kryo = getKryo();
-        ByteBufferOutput output = new ByteBufferOutput(512,-1);
+        ByteBufferOutput output = new ByteBufferOutput(512, -1);
         kryo.writeObjectOrNull(output, obj, obj.getClass());
         byte[] bytes = output.toBytes();
         output.flush();

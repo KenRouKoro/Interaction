@@ -1,11 +1,11 @@
 package cn.korostudio.interaction.base.data;
 
 import lombok.Data;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 @Data
 public class Server implements Serializable {
@@ -18,7 +18,6 @@ public class Server implements Serializable {
     boolean useSSL = false;
     int port;//-1为不使用
     List<String> service = new CopyOnWriteArrayList<>();
-
 
 
 }

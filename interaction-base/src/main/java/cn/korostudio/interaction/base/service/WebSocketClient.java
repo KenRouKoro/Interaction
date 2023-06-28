@@ -8,10 +8,10 @@ import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
 import java.nio.ByteBuffer;
-import java.util.Map;
 
-public class WebSocketClient extends org.java_websocket.client.WebSocketClient implements Connect{
+public class WebSocketClient extends org.java_websocket.client.WebSocketClient implements Connect {
     private final Server server;
+
     public WebSocketClient(URI serverUri, Server server) {
         super(serverUri);
         this.server = server;
@@ -19,8 +19,8 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient i
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
-        PlatformConnect.getConnectMap().put(server.getId(),this);
-        PlatformConnect.getServerMap().put(server.getId(),server);
+        PlatformConnect.getConnectMap().put(server.getId(), this);
+        PlatformConnect.getServerMap().put(server.getId(), server);
         EventBus.push(new ConnectEvent(server.getId(), ConnectStatus.OnOpen));
     }
 

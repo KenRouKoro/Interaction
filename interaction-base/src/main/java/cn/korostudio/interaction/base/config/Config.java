@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class Config {
-    public static Server centerServer = new Server(){
+    public static Server centerServer = new Server() {
         {
             setId("Center");
             setAddress("127.0.0.1");
@@ -14,7 +14,7 @@ public class Config {
         }
     };
     public static boolean enableCenter = true;
-    public static String ConnectToken="HelloWorld";
+    public static String ConnectToken = "HelloWorld";
     public static boolean isCenter = false;
 
 

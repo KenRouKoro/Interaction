@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 public class URLUtil {
     private static final Pattern PATTERN = Pattern.compile("\\{(.*?)\\}");
+
     public static boolean validateURLWithTemplate(String uri, String template) {
         Matcher m = PATTERN.matcher(template);
 
@@ -23,6 +24,7 @@ public class URLUtil {
 
         return matcher.matches();
     }
+
     public static Map<String, String> getParamsFromURLTemplate(String uri, String template) {
         Map<String, String> map = new HashMap<>();
         Matcher m = PATTERN.matcher(template);
