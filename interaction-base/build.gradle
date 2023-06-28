@@ -35,23 +35,6 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
 }
 
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/kenroukoro/interaction")
-            credentials {
-                username = "KenRouKoro"
-                password = token
-            }
-        }
-    }
-    publications {
-        gpr(MavenPublication) {
-            from(components.java)
-        }
-    }
-}
 
 test {
     useJUnitPlatform()

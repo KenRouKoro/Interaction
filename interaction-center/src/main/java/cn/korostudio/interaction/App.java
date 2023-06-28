@@ -47,7 +47,7 @@ public class App {
         });
         Config.isCenter=true;
 
-        BaseClient.init("*/30 * * * * *",Config.centerServer);
+        BaseClient.init(Config.centerServer);
 
     }
 }
