@@ -30,3 +30,10 @@ jobs:
 
     - name: Build with Gradle
       run: ./gradlew build
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: build-outputs
+        path: |
+          */build/libs/*.jar
