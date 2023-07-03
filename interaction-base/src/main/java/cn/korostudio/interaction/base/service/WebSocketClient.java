@@ -19,8 +19,8 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient i
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
-        PlatformConnect.getConnectMap().put(server.getId(), this);
-        PlatformConnect.getServerMap().put(server.getId(), server);
+        ConnectManager.getConnectMap().put(server.getId(), this);
+        ConnectManager.getServerMap().put(server.getId(), server);
         EventBus.push(new ConnectEvent(server.getId(), ConnectStatus.OnOpen));
     }
 
@@ -31,17 +31,17 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient i
 
     @Override
     public void onMessage(ByteBuffer bytes) {
-        PlatformMessage.getMessage(bytes.array());
+        MessageManager.getMessage(bytes.array());
     }
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-        PlatformConnect.removeServer(server);
+        ConnectManager.removeServer(server);
     }
 
     @Override
     public void onError(Exception ex) {
-        PlatformConnect.removeServer(server);
+        ConnectManager.removeServer(server);
     }
 
     @Override

@@ -14,14 +14,14 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 @Slf4j
-public class PlatformMessage {
+public class MessageManager {
     public static final String ALL = "ALL";
     public static final String LOOP = "LOOP";
     @Getter
     protected static final KryoUtil<BaseMessage> serializable = new KryoUtil<>(BaseMessage.class);
     protected static final ExecutorService messageWorker = ThreadUtil.newFixedExecutor(8, "message-worker", true);
     @Getter
-    protected static PlatformMessage platformMessage = null;
+    protected static MessageManager platformMessage = null;
 
     public static void send(BaseMessage message) {
         if (platformMessage == null) {
@@ -33,7 +33,7 @@ public class PlatformMessage {
             return;
         }
         if (message.getTarget().equals(ALL)) {
-            PlatformConnect.getServerMap().values().forEach(server -> {
+            ConnectManager.getServerMap().values().forEach(server -> {
                 BaseMessage sendMessage = new BaseMessage();
                 sendMessage.setForm(message.getForm());
                 sendMessage.setService(message.getService());
@@ -70,7 +70,7 @@ public class PlatformMessage {
             log.warn("空发送对象,取消信息发送");
             return;
         }
-        Connect session = PlatformConnect.getConnectMap().get(target);
+        Connect session = ConnectManager.getConnectMap().get(target);
         if (session != null) {
             try {
                 messageWorker.execute(() -> {

@@ -23,7 +23,7 @@ public class WebSocketServer extends WebSocketDefaultHandler {
                 return;
             }
             WebSocketServerConnect mine = new WebSocketServerConnect(response);
-            PlatformConnect.getConnectMap().put(id, mine);
+            ConnectManager.getConnectMap().put(id, mine);
             EventBus.push(new ConnectEvent(id, ConnectStatus.OnOpen));
         } catch (Exception e) {
             log.error("握手失败", e);
@@ -35,14 +35,14 @@ public class WebSocketServer extends WebSocketDefaultHandler {
     public void onClose(Request request) {
         String id = request.getParameter("id");
         log.info("连接{}关闭", id);
-        PlatformConnect.removeServer(id);
+        ConnectManager.removeServer(id);
     }
 
     @Override
     public void onError(WebSocketRequest request, Throwable throwable) {
         String id = request.getParameters().get("id")[0];
         log.error("与{}的连接异常", id, throwable);
-        PlatformConnect.removeServer(id);
+        ConnectManager.removeServer(id);
     }
 
     public static class WebSocketServerConnect implements Connect {

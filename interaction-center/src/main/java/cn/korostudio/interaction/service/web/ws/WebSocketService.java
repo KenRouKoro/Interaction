@@ -6,8 +6,8 @@ import cn.korostudio.interaction.base.data.BaseMessage;
 import cn.korostudio.interaction.base.event.EventBus;
 import cn.korostudio.interaction.base.event.connect.ConnectEvent;
 import cn.korostudio.interaction.base.event.connect.ConnectStatus;
-import cn.korostudio.interaction.base.service.PlatformConnect;
-import cn.korostudio.interaction.base.service.PlatformMessage;
+import cn.korostudio.interaction.base.service.ConnectManager;
+import cn.korostudio.interaction.base.service.MessageManager;
 import cn.korostudio.interaction.base.util.KryoUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,7 @@ public class WebSocketService implements Listener {
             return;
         }
         sessionMap.put(id, session);
-        PlatformConnect.getConnectMap().put(id, new ConnectSession(session));
+        ConnectManager.getConnectMap().put(id, new ConnectSession(session));
         EventBus.push(new ConnectEvent(id, ConnectStatus.OnOpen));
         log.info("与{}的握手完成", id);
     }
@@ -49,7 +49,7 @@ public class WebSocketService implements Listener {
     @Override
     public void onMessage(Session session, Message message) {
         String id = session.param("id");
-        PlatformMessage.getMessage(serializable.deserialize(message.body()));
+        MessageManager.getMessage(serializable.deserialize(message.body()));
         log.debug("收到{}的信息", id);
 
     }
@@ -58,7 +58,7 @@ public class WebSocketService implements Listener {
     public void onClose(Session session) {
         String id = session.param("id");
         sessionMap.remove(id);
-        PlatformConnect.removeServer(id);
+        ConnectManager.removeServer(id);
         log.info("与{}的连接关闭", id);
     }
 
@@ -66,7 +66,7 @@ public class WebSocketService implements Listener {
     public void onError(Session session, Throwable error) {
         String id = session.param("id");
         sessionMap.remove(id);
-        PlatformConnect.removeServer(id);
+        ConnectManager.removeServer(id);
         log.error("与{}连接发生错误", id, error);
     }
 
