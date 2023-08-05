@@ -11,6 +11,7 @@ import cn.korostudio.interaction.base.event.connect.ConnectEvent;
 import cn.korostudio.interaction.base.event.connect.ConnectStatus;
 import cn.korostudio.interaction.base.service.ConnectManager;
 import cn.korostudio.interaction.base.service.MessageManager;
+import cn.korostudio.interaction.base.service.WebSocketServer;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -76,7 +77,8 @@ public class BaseClient {
             bootstrap = new HttpBootstrap();
             bootstrap.setPort(mine.getPort());
             routeHandle = new WebSocketRouteHandler();
-            routeHandle.route("/ws", new WebSocketDefaultHandler());
+            routeHandle.route("/ws", new WebSocketServer());
+            bootstrap.webSocketHandler(routeHandle);
             bootstrap.start();
         }
 

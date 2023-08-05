@@ -1,7 +1,9 @@
+
 allprojects {
-    version = '1.0.1'
+    version = '1.1.0'
     group = 'cn.korostudio'
 }
+
 
 subprojects {
     apply plugin: 'java'
@@ -9,6 +11,14 @@ subprojects {
 
     sourceCompatibility = 17 // java 17
     targetCompatibility = 17
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = "UTF-8"
+    }
+
+    javadoc {
+        options.encoding = 'UTF-8'
+    }
 
     java {
         withSourcesJar()

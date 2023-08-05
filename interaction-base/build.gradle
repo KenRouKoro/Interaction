@@ -48,5 +48,13 @@ publishing {
                 password = System.getenv("TOKEN")
             }
         }
+        maven {
+            name = "KoroMavenRepositories"
+            url = "https://source.korostudio.cn/repository/maven-public/"
+            credentials {
+                username = project.property("kmuser")
+                password = project.property("kmpassword")
+            }
+        }
     }
 }

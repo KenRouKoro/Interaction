@@ -39,6 +39,16 @@ public class WebSocketServer extends WebSocketDefaultHandler {
     }
 
     @Override
+    public void handleBinaryMessage(WebSocketRequest request, WebSocketResponse response, byte[] data) {
+        byte[]messageSource = request.getPayload();
+    }
+
+    @Override
+    public void handleTextMessage(WebSocketRequest request, WebSocketResponse response, String data) {
+        byte[]messageSource = request.getPayload();
+    }
+
+    @Override
     public void onError(WebSocketRequest request, Throwable throwable) {
         String id = request.getParameters().get("id")[0];
         log.error("与{}的连接异常", id, throwable);
