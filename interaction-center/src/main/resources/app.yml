@@ -1,5 +1,0 @@
-server.port: 8080
-
-solon.app:
-  name: 'InteractionCenter'
-  group: 'cn.korostudio'

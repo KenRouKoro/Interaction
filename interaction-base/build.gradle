@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'maven-publish'
 }
-group = 'cn.korostudio'
+group = 'com.foxapplication.mc'
 
 repositories {
     mavenCentral()
@@ -36,25 +36,4 @@ dependencies {
 
 test {
     useJUnitPlatform()
-}
-
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = "https://maven.pkg.github.com/kenroukoro/interaction"
-            credentials {
-                username = System.getenv("USERNAME")
-                password = System.getenv("TOKEN")
-            }
-        }
-        maven {
-            name = "KoroMavenRepositories"
-            url = "https://source.korostudio.cn/repository/maven-public/"
-            credentials {
-                username = project.property("kmuser")
-                password = project.property("kmpassword")
-            }
-        }
-    }
 }
