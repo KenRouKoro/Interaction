@@ -1,9 +1,9 @@
 package com.foxapplication.mc.interaction.base;
 
-import cn.hutool.core.collection.ListUtil;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.log.Log;
-import cn.hutool.log.LogFactory;
+import com.foxapplication.embed.hutool.core.collection.ListUtil;
+import com.foxapplication.embed.hutool.core.util.ObjectUtil;
+import com.foxapplication.embed.hutool.log.Log;
+import com.foxapplication.embed.hutool.log.LogFactory;
 import com.foxapplication.mc.interaction.base.config.Config;
 import com.foxapplication.mc.interaction.base.data.BaseMessage;
 import com.foxapplication.mc.interaction.base.data.Server;
@@ -94,5 +94,9 @@ public class BaseClient {
         }
 
         log.info("初始化完成");
+    }
+
+    public static void main(String[] args) {
+        init(new Server());
     }
 }

@@ -1,10 +1,10 @@
 package com.foxapplication.mc.interaction.base.service;
 
-import cn.hutool.core.text.StrSplitter;
-import cn.hutool.core.thread.ThreadUtil;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.log.Log;
-import cn.hutool.log.LogFactory;
+import com.foxapplication.embed.hutool.core.text.StrSplitter;
+import com.foxapplication.embed.hutool.core.thread.ThreadUtil;
+import com.foxapplication.embed.hutool.core.util.StrUtil;
+import com.foxapplication.embed.hutool.log.Log;
+import com.foxapplication.embed.hutool.log.LogFactory;
 import com.foxapplication.mc.interaction.base.BaseClient;
 import com.foxapplication.mc.interaction.base.data.BaseMessage;
 import com.foxapplication.mc.interaction.base.event.ServiceMessageBus;

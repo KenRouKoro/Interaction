@@ -1,7 +1,7 @@
 package com.foxapplication.mc.interaction.base.service;
 
-import cn.hutool.log.Log;
-import cn.hutool.log.LogFactory;
+import com.foxapplication.embed.hutool.log.Log;
+import com.foxapplication.embed.hutool.log.LogFactory;
 import com.foxapplication.mc.interaction.base.config.Config;
 import com.foxapplication.mc.interaction.base.event.EventBus;
 import com.foxapplication.mc.interaction.base.event.connect.ConnectEvent;

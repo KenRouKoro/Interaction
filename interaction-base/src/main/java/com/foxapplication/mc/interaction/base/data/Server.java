@@ -1,6 +1,8 @@
 package com.foxapplication.mc.interaction.base.data;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -11,6 +13,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * 服务器类
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Server implements Serializable {
 
     /**

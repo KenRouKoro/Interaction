@@ -1,7 +1,7 @@
 package com.foxapplication.mc.interaction.base.data;
 
-import cn.hutool.core.util.CharsetUtil;
-import cn.hutool.core.util.ObjectUtil;
+import com.foxapplication.embed.hutool.core.util.CharsetUtil;
+import com.foxapplication.embed.hutool.core.util.ObjectUtil;
 import lombok.Data;
 
 import java.io.Serial;

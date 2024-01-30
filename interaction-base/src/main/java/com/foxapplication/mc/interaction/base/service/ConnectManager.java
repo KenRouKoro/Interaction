@@ -1,8 +1,8 @@
 package com.foxapplication.mc.interaction.base.service;
 
-import cn.hutool.core.util.URLUtil;
-import cn.hutool.log.Log;
-import cn.hutool.log.LogFactory;
+import com.foxapplication.embed.hutool.core.util.URLUtil;
+import com.foxapplication.embed.hutool.log.Log;
+import com.foxapplication.embed.hutool.log.LogFactory;
 import com.foxapplication.mc.interaction.base.BaseClient;
 import com.foxapplication.mc.interaction.base.config.Config;
 import com.foxapplication.mc.interaction.base.data.Server;
