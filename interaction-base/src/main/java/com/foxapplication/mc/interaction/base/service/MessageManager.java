@@ -23,7 +23,7 @@ public class MessageManager {
      */
     public static final String ALL = "ALL";
     /**
-     * 循环发送
+     * 回环发送
      */
     public static final String LOOP = "LOOP";
     /**

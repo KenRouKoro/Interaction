@@ -39,7 +39,9 @@ public class BaseClient {
     private static HttpBootstrap bootstrap;
     @Getter
     private static InteractionBaseConfig config;
+    @Getter
     private static BeanFoxConfig beanFoxConfig;
+    @Getter
     private static LocalFoxConfig localFoxConfig;
 
     /**

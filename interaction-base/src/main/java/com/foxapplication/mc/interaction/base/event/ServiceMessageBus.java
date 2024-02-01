@@ -29,6 +29,30 @@ public class ServiceMessageBus {
         List<ServiceMessageCallback> callbacks = callbackMap.computeIfAbsent(service, k -> new CopyOnWriteArrayList<>());
         callbacks.add(callback);
     }
+    /**
+     * 取消订阅服务消息
+     *
+     * @param service  服务名称
+     * @param callback 回调函数
+     */
+    public static void unsubscribe(String service, ServiceMessageCallback callback) {
+        if (StrUtil.isBlank(service) || callback == null) {
+            return;
+        }
+        List<ServiceMessageCallback> callbacks = callbackMap.get(service);
+        if (callbacks != null) {
+            callbacks.remove(callback);
+        }
+    }
+
+    /**
+     * 取消订阅服务消息
+     *
+     * @param service 服务名称
+     */
+    public static void unsubscribe(String service) {
+        callbackMap.remove(service);
+    }
 
     /**
      * 推送服务消息
