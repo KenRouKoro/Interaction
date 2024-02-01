@@ -2,7 +2,8 @@ package com.foxapplication.mc.interaction.base.service;
 
 import com.foxapplication.embed.hutool.log.Log;
 import com.foxapplication.embed.hutool.log.LogFactory;
-import com.foxapplication.mc.interaction.base.config.Config;
+import com.foxapplication.mc.interaction.base.BaseClient;
+import com.foxapplication.mc.interaction.base.config.InteractionBaseConfig;
 import com.foxapplication.mc.interaction.base.event.EventBus;
 import com.foxapplication.mc.interaction.base.event.connect.ConnectEvent;
 import com.foxapplication.mc.interaction.base.event.connect.ConnectStatus;
@@ -31,7 +32,7 @@ public class WebSocketServer extends WebSocketDefaultHandler {
         try {
             String token = request.getParameters().get("token")[0];
             String id = request.getParameters().get("id")[0];
-            if (!token.equals(Config.ConnectToken)) {
+            if (!token.equals(BaseClient.getConfig().ConnectToken)) {
                 log.error("握手失败,Token验证失败");
                 return;
             }

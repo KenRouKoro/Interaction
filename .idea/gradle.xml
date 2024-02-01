@@ -10,7 +10,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/interaction-base" />
-            <option value="$PROJECT_DIR$/interaction-center" />
           </set>
         </option>
       </GradleProjectSettings>

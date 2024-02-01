@@ -4,7 +4,9 @@ import com.foxapplication.embed.hutool.core.collection.ListUtil;
 import com.foxapplication.embed.hutool.core.util.ObjectUtil;
 import com.foxapplication.embed.hutool.log.Log;
 import com.foxapplication.embed.hutool.log.LogFactory;
-import com.foxapplication.mc.interaction.base.config.Config;
+import com.foxapplication.mc.core.config.BeanFoxConfig;
+import com.foxapplication.mc.core.config.LocalFoxConfig;
+import com.foxapplication.mc.interaction.base.config.InteractionBaseConfig;
 import com.foxapplication.mc.interaction.base.data.BaseMessage;
 import com.foxapplication.mc.interaction.base.data.Server;
 import com.foxapplication.mc.interaction.base.event.EventBus;
@@ -19,6 +21,7 @@ import lombok.Setter;
 import org.smartboot.http.server.HttpBootstrap;
 import org.smartboot.http.server.handler.WebSocketRouteHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,6 +37,10 @@ public class BaseClient {
     private static WebSocketRouteHandler routeHandle;
     @Getter
     private static HttpBootstrap bootstrap;
+    @Getter
+    private static InteractionBaseConfig config;
+    private static BeanFoxConfig beanFoxConfig;
+    private static LocalFoxConfig localFoxConfig;
 
     /**
      * 初始化方法，启动内部定时器，注册默认回调
@@ -41,7 +48,12 @@ public class BaseClient {
      * @param mine 服务器信息
      */
     public static void init(Server mine) {
-        log.info("正在初始化Interaction核心");
+        log.info("正在初始化Interaction基本核心");
+
+        localFoxConfig = new LocalFoxConfig(InteractionBaseConfig.class);
+        beanFoxConfig = localFoxConfig.getBeanFoxConfig();
+        config = (InteractionBaseConfig) beanFoxConfig.getBean();
+
         BaseClient.mine = mine;
         log.info("正在注册信息回调");
         ServiceMessageBus.subscribe("server_info", message -> {
@@ -78,7 +90,7 @@ public class BaseClient {
             }
         });
 
-        if (!Config.isCenter) {
+        if (!config.isOtherServer) {
             log.info("正在启动内置WS服务端，端口：{}", mine.getPort());
             bootstrap = new HttpBootstrap();
             bootstrap.setPort(mine.getPort());
@@ -88,15 +100,11 @@ public class BaseClient {
             bootstrap.start();
         }
 
-        if (Config.enableCenter) {
+        if (config.enableCenter) {
             log.info("正在尝试链接中央节点");
-            ConnectManager.connect(Config.centerServer);
+            ConnectManager.connect(new Server(config.centerID, config.centerAddress, config.centerUseSSL,config.centerPort,new ArrayList<>()));
         }
 
         log.info("初始化完成");
-    }
-
-    public static void main(String[] args) {
-        init(new Server());
     }
 }

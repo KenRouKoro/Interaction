@@ -42,7 +42,7 @@ public class Server implements Serializable {
      * 服务器端口
      * -1表示不使用
      */
-    int port;
+    int port = -1;
 
     /**
      * 服务列表

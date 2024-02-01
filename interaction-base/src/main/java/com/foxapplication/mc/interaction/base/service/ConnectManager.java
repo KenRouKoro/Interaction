@@ -4,7 +4,7 @@ import com.foxapplication.embed.hutool.core.util.URLUtil;
 import com.foxapplication.embed.hutool.log.Log;
 import com.foxapplication.embed.hutool.log.LogFactory;
 import com.foxapplication.mc.interaction.base.BaseClient;
-import com.foxapplication.mc.interaction.base.config.Config;
+import com.foxapplication.mc.interaction.base.config.InteractionBaseConfig;
 import com.foxapplication.mc.interaction.base.data.Server;
 import lombok.Getter;
 
@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 
 /**
  * 连接管理器
@@ -147,7 +148,7 @@ public class ConnectManager {
 
             WebSocketClient client;
             try {
-                client = new WebSocketClient(new URI((server.isUseSSL() ? "wss" : "ws") + "://" + server.getAddress() + (server.getPort() >= 0 ? ":" + server.getPort() : "") + "?token=" + URLUtil.encode(Config.ConnectToken) + "&id=" + URLUtil.encode(BaseClient.getMine().getId())), server);
+                client = new WebSocketClient(new URI((server.isUseSSL() ? "wss" : "ws") + "://" + server.getAddress() + (server.getPort() >= 0 ? ":" + server.getPort() : "") + "?token=" + URLUtil.encode(BaseClient.getConfig().getConnectToken()) + "&id=" + URLUtil.encode(BaseClient.getMine().getId())), server);
             } catch (URISyntaxException e) {
                 log.error("拼接URI失败", e);
                 return null;
