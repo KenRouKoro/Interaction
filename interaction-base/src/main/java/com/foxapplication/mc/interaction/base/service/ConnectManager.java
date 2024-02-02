@@ -20,15 +20,42 @@ import java.util.concurrent.Executors;
  * 连接管理器
  */
 public class ConnectManager {
+    /**
+     * 服务器映射表
+     */
     @Getter
     private static final ConcurrentHashMap<String, Server> serverMap = new ConcurrentHashMap<>();
+
+    /**
+     * 连接映射表
+     */
     @Getter
     private static final ConcurrentHashMap<String, Connect> connectMap = new ConcurrentHashMap<>();
+
+    /**
+     * 连接工作线程池
+     */
     private static final ExecutorService connectWorker = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
+    /**
+     * 连接线程映射表
+     */
     @Getter
     private static final ConcurrentHashMap<String, Thread> connectThreadMap = new ConcurrentHashMap<>();
+
+    /**
+     * 服务器服务管理器
+     */
     private static final ServerServiceManager serverServiceManager = new ServerServiceManager();
+
+    /**
+     * 日志记录器
+     */
     private static final Log log = LogFactory.get();
+
+    /**
+     * 平台连接管理器
+     */
     @Getter
     protected static ConnectManager platformConnect = new ConnectManager();
 

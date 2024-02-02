@@ -14,16 +14,32 @@ import lombok.Setter;
  */
 public class KryoUtil<T> {
 
+    /**
+     * 用于序列化对象的输出流
+     */
     private final ThreadLocal<Output> outputLocal = ThreadLocal.withInitial(Output::new);
+
+    /**
+     * 用于反序列化对象的输入流
+     */
     private final ThreadLocal<Input> inputLocal = ThreadLocal.withInitial(Input::new);
+
+    /**
+     * 要序列化和反序列化的对象的类型
+     */
     @Setter
     @Getter
     private Class<T> ct;
+
+    /**
+     * 用于序列化和反序列化对象的Kryo实例
+     */
     private final ThreadLocal<Kryo> kryoLocal = ThreadLocal.withInitial(() -> {
         Kryo kryo = new Kryo();
         kryo.register(ct, new BeanSerializer<>(kryo, ct));
         return kryo;
     });
+
 
     /**
      * 构造一个KryoUtil对象。

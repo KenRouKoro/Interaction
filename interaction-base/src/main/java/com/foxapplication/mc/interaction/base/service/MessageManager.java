@@ -83,8 +83,7 @@ public class MessageManager {
     private static void sendToMultipleTargets(BaseMessage message) {
         List<String> targetList = StrSplitter.split(message.getTarget(), ',', 0, true, true);
         targetList.forEach(target -> {
-            message.setTarget(target);
-            sendMessageDirectly(message);
+            sendMessageDirectly(new BaseMessage(message.getService(),target, message.getMessage()));
         });
     }
 
@@ -107,11 +106,11 @@ public class MessageManager {
     }
 
     /**
-     * 直接发送消息
+     * 直接发送消息，会跳过目标检查
      *
      * @param message 消息对象
      */
-    protected static void sendMessageDirectly(BaseMessage message) {
+    public static void sendMessageDirectly(BaseMessage message) {
         String target = message.getTarget();
         message.setForm(BaseClient.getMine().getAddress());
         if (StrUtil.isBlank(target) || NONE.equals(target)) {
@@ -127,6 +126,8 @@ public class MessageManager {
                     log.error("送信执行线程异常", e);
                 }
             });
+        }else{
+            log.warn("未找到目标:{}", target);
         }
     }
 }

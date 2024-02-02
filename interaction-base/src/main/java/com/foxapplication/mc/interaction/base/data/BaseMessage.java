@@ -7,13 +7,35 @@ import lombok.Data;
 import java.io.Serial;
 import java.io.Serializable;
 
+/**
+ * 基础消息类
+ */
 @Data
 public class BaseMessage implements Serializable {
+    /**
+     * 序列化版本号
+     */
     @Serial
     private static final long serialVersionUID = 1145141919810L;
+
+    /**
+     * 服务名称
+     */
     String service = "NONE";
+
+    /**
+     * 消息内容
+     */
     byte[] message = new byte[0];
+
+    /**
+     * 消息来源
+     */
     String form = "NONE";
+
+    /**
+     * 消息目标
+     */
     String target = "NONE";
 
     /**
@@ -121,5 +143,44 @@ public class BaseMessage implements Serializable {
     public String getMessageByString() {
         return new String(this.message, CharsetUtil.CHARSET_UTF_8);
     }
+
+    /**
+     * 创建一个字符串类型的BaseMessage对象
+     * @param service 服务名称
+     * @param message 消息内容
+     * @return BaseMessage对象
+     */
+    public static BaseMessage ofString(String service, String message) {
+        return new BaseMessage(service, "NONE", message);
+    }
+
+    /**
+     * 创建一个字符串类型的BaseMessage对象
+     * @param message 消息内容
+     * @return BaseMessage对象
+     */
+    public static BaseMessage ofString(String message) {
+        return new BaseMessage("NONE", "NONE", message);
+    }
+
+    /**
+     * 创建一个字节数组类型的BaseMessage对象
+     * @param service 服务名称
+     * @param message 消息内容
+     * @return BaseMessage对象
+     */
+    public static BaseMessage ofBytes(String service, byte[] message) {
+        return new BaseMessage(service, "NONE", message);
+    }
+
+    /**
+     * 创建一个字节数组类型的BaseMessage对象
+     * @param message 消息内容
+     * @return BaseMessage对象
+     */
+    public static BaseMessage ofBytes(byte[] message) {
+        return new BaseMessage("NONE", "NONE", message);
+    }
+
 
 }

@@ -11,7 +11,13 @@ import java.util.concurrent.ConcurrentHashMap;
  * 服务器服务管理器
  */
 public class ServerServiceManager {
+    /**
+     * 服务器到服务列表的映射
+     */
     private static final ConcurrentHashMap<Server, List<String>> serverToServices = new ConcurrentHashMap<>();
+    /**
+     * 服务到服务器列表的映射
+     */
     private static final ConcurrentHashMap<String, List<Server>> serviceToServers = new ConcurrentHashMap<>();
 
     /**

@@ -18,7 +18,9 @@ import java.util.Optional;
  * WebSocket服务器
  */
 public class WebSocketServer extends WebSocketDefaultHandler {
-
+    /**
+     * 日志
+     */
     private static final Log log = LogFactory.get();
 
     /**
@@ -29,6 +31,7 @@ public class WebSocketServer extends WebSocketDefaultHandler {
      */
     @Override
     public void onHandShake(WebSocketRequest request, WebSocketResponse response) {
+
         try {
             String token = request.getParameters().get("token")[0];
             String id = request.getParameters().get("id")[0];
@@ -55,6 +58,7 @@ public class WebSocketServer extends WebSocketDefaultHandler {
         String id = request.getParameter("id");
         log.info("连接{}关闭", id);
         ConnectManager.removeServer(id);
+        EventBus.push(new ConnectEvent(id, ConnectStatus.OnClose));
     }
 
     /**
@@ -95,14 +99,22 @@ public class WebSocketServer extends WebSocketDefaultHandler {
         String id = Optional.ofNullable(request.getParameters().get("id")).map(params -> params[0]).orElse("");
         log.error("与{}的连接异常", id, throwable);
         ConnectManager.removeServer(id);
+        EventBus.push(new ConnectEvent(id, ConnectStatus.OnClose));
     }
 
     /**
      * WebSocket服务器连接
      */
     public static class WebSocketServerConnect implements Connect {
-        WebSocketResponse webSocketResponse;
+        /**
+         * WebSocket响应对象
+         */
+        private WebSocketResponse webSocketResponse;
 
+        /**
+         * 构造方法
+         * @param webSocketResponse WebSocket响应对象
+         */
         public WebSocketServerConnect(WebSocketResponse webSocketResponse) {
             this.webSocketResponse = webSocketResponse;
         }

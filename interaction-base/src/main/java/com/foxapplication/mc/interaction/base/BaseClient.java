@@ -29,18 +29,45 @@ import java.util.List;
  */
 public class BaseClient {
 
+    /**
+     * 日志对象
+     */
     private static final Log log = LogFactory.get();
+
+    /**
+     * 服务器对象
+     */
     @Getter
     @Setter
     private static Server mine;
+
+    /**
+     * WebSocket路由处理器
+     */
     @Getter
     private static WebSocketRouteHandler routeHandle;
+
+    /**
+     * HTTP引导程序
+     */
     @Getter
     private static HttpBootstrap bootstrap;
+
+    /**
+     * 交互基础配置
+     */
     @Getter
     private static InteractionBaseConfig config;
+
+    /**
+     * BeanFox配置
+     */
     @Getter
     private static BeanFoxConfig beanFoxConfig;
+
+    /**
+     * 本地Fox配置
+     */
     @Getter
     private static LocalFoxConfig localFoxConfig;
 

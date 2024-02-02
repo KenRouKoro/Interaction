@@ -1,5 +1,8 @@
 package com.foxapplication.mc.interaction.base.service;
 
+/**
+ * 连接接口
+ */
 public interface Connect {
     /**
      * 发送消息
