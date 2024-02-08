@@ -3,7 +3,7 @@ package com.foxapplication.mc.interaction.base.service;
 import com.foxapplication.embed.hutool.log.Log;
 import com.foxapplication.embed.hutool.log.LogFactory;
 import com.foxapplication.mc.interaction.base.BaseClient;
-import com.foxapplication.mc.interaction.base.config.InteractionBaseConfig;
+import com.foxapplication.mc.interaction.base.data.Server;
 import com.foxapplication.mc.interaction.base.event.EventBus;
 import com.foxapplication.mc.interaction.base.event.connect.ConnectEvent;
 import com.foxapplication.mc.interaction.base.event.connect.ConnectStatus;
@@ -42,6 +42,7 @@ public class WebSocketServer extends WebSocketDefaultHandler {
             WebSocketServerConnect mine = new WebSocketServerConnect(response);
             ConnectManager.getConnectMap().put(id, mine);
             EventBus.push(new ConnectEvent(id, ConnectStatus.OnOpen));
+            log.info("与节点 {} 握手成功！",id);
         } catch (Exception e) {
             log.error("握手失败", e);
             response.close();

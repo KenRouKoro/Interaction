@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.smartboot.http:smart-http-server:1.2.3-SNAPSHOT'
+    implementation 'org.smartboot.http:smart-http-server:1.3.8'
     implementation group: 'org.java-websocket', name: 'Java-WebSocket', version: '1.5.3'
 
 

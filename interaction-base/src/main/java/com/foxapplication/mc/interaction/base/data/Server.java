@@ -26,12 +26,12 @@ public class Server implements Serializable {
     /**
      * 服务器ID
      */
-    String id;
+    String id = "NONE";
 
     /**
      * 服务器地址
      */
-    String address;
+    String address = "NONE";
 
     /**
      * 是否使用SSL

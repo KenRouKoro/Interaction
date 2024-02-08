@@ -43,11 +43,6 @@ public class MessageManager {
      * 日志记录器
      */
     private static final Log log = LogFactory.get();
-    /**
-     * 平台消息管理器
-     */
-    @Getter
-    protected static MessageManager platformMessage = null;
 
     /**
      * 发送消息
@@ -55,18 +50,15 @@ public class MessageManager {
      * @param message 消息对象
      */
     public static void send(BaseMessage message) {
-        if (platformMessage == null) {
-            log.warn("未初始化任何送信通道，发送失败");
-            return;
-        }
         switch (message.getTarget()) {
             case LOOP:
                 getMessage(message);
                 break;
             case ALL:
-                ConnectManager.getServerMap().values().forEach(server -> {
-                    message.setTarget(server.getId());
-                    sendMessageDirectly(message);
+                ConnectManager.getConnectMap().keySet().forEach(target -> {
+                    BaseMessage sendMessage = BaseMessage.ofBytes(message.getService(),message.getMessage());
+                    sendMessage.setTarget(target);
+                    sendMessageDirectly(sendMessage);
                 });
                 break;
             default:
@@ -81,7 +73,7 @@ public class MessageManager {
      * @param message 消息对象
      */
     private static void sendToMultipleTargets(BaseMessage message) {
-        List<String> targetList = StrSplitter.split(message.getTarget(), ',', 0, true, true);
+        List<String> targetList = StrSplitter.split(message.getTarget(), ',', -1, true, true);
         targetList.forEach(target -> {
             sendMessageDirectly(new BaseMessage(message.getService(),target, message.getMessage()));
         });
@@ -112,7 +104,7 @@ public class MessageManager {
      */
     public static void sendMessageDirectly(BaseMessage message) {
         String target = message.getTarget();
-        message.setForm(BaseClient.getMine().getAddress());
+        message.setForm(BaseClient.getMine().getId());
         if (StrUtil.isBlank(target) || NONE.equals(target)) {
             log.warn("空发送对象,取消信息发送");
             return;

@@ -17,7 +17,7 @@ public class KryoUtil<T> {
     /**
      * 用于序列化对象的输出流
      */
-    private final ThreadLocal<Output> outputLocal = ThreadLocal.withInitial(Output::new);
+    private final ThreadLocal<Output> outputLocal = ThreadLocal.withInitial(() -> new Output(4096, -1));
 
     /**
      * 用于反序列化对象的输入流
@@ -36,6 +36,7 @@ public class KryoUtil<T> {
      */
     private final ThreadLocal<Kryo> kryoLocal = ThreadLocal.withInitial(() -> {
         Kryo kryo = new Kryo();
+        kryo.register(byte[].class);
         kryo.register(ct, new BeanSerializer<>(kryo, ct));
         return kryo;
     });

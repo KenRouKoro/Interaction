@@ -86,17 +86,18 @@ public class BaseClient {
         BaseClient.mine = mine;
         log.info("正在注册信息回调");
         ServiceMessageBus.subscribe("server_info", message -> {
-            Server server = ObjectUtil.deserialize(message.getMessage());
+            Server server = ObjectUtil.deserialize(message.getMessage(),Server.class);
             ConnectManager.connect(server);
         });
 
         ServiceMessageBus.subscribe("server_info_update", message -> {
-            Server server = ObjectUtil.deserialize(message.getMessage());
+            Server server = ObjectUtil.deserialize(message.getMessage(),Server.class);
             ConnectManager.update(server);
+            log.info("已更新 {} 的数据： {}",server.getId(),server);
         });
 
         ServiceMessageBus.subscribe("server_info_list", message -> {
-            List<Server> serverList = ObjectUtil.deserialize(message.getMessage());
+            List<Server> serverList = ObjectUtil.deserialize(message.getMessage(),List.class,Server.class);
             serverList.forEach(ConnectManager::connect);
         });
 
@@ -135,5 +136,15 @@ public class BaseClient {
         }
 
         log.info("初始化完成");
+    }
+
+    /**
+     * 停止方法
+     */
+    public static void stop(){
+        ConnectManager.getConnectMap().forEach((key,server) -> server.close());
+        ConnectManager.getConnectMap().keySet().forEach(ConnectManager::removeServer);
+
+        if (bootstrap!=null) bootstrap.shutdown();
     }
 }

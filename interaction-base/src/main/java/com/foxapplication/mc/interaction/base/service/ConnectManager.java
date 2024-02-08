@@ -147,12 +147,33 @@ public class ConnectManager {
     public void updateService(Server server) {
         if (server == null) return;
         Server hasServer = getServerMap().get(server.getId());
-        if (hasServer == null) return;
+        if (hasServer == null) {
+            getServerMap().put(server.getId(), server);
+            return;
+        }
         List<String> oldServices = hasServer.getService();
         List<String> newServices = server.getService();
         if (oldServices != null && newServices != null && !oldServices.equals(newServices)) {
             hasServer.setService(newServices);
             serverServiceManager.updateServerService(hasServer);
+        }
+        if (!hasServer.getId().equals(server.getId())) {
+            // 如果ID发生改变，则将serverMap，connectMap，connectThreadMap中的对应旧ID的数据的key更新为新ID
+            Server updatedServer = serverMap.remove(hasServer.getId());
+            if (updatedServer != null) {
+                updatedServer.setId(server.getId());
+                serverMap.put(server.getId(), updatedServer);
+            }
+
+            Connect updatedConnect = connectMap.remove(hasServer.getId());
+            if (updatedConnect != null) {
+                connectMap.put(server.getId(), updatedConnect);
+            }
+
+            Thread updatedThread = connectThreadMap.remove(hasServer.getId());
+            if (updatedThread != null) {
+                connectThreadMap.put(server.getId(), updatedThread);
+            }
         }
     }
 
@@ -175,7 +196,7 @@ public class ConnectManager {
 
             WebSocketClient client;
             try {
-                client = new WebSocketClient(new URI((server.isUseSSL() ? "wss" : "ws") + "://" + server.getAddress() + (server.getPort() >= 0 ? ":" + server.getPort() : "") + "?token=" + URLUtil.encode(BaseClient.getConfig().getConnectToken()) + "&id=" + URLUtil.encode(BaseClient.getMine().getId())), server);
+                client = new WebSocketClient(new URI((server.isUseSSL() ? "wss" : "ws") + "://" + server.getAddress() + (server.getPort() >= 0 ? ":" + server.getPort() : "") + "/ws?token=" + URLUtil.encode(BaseClient.getConfig().getConnectToken()) + "&id=" + URLUtil.encode(BaseClient.getMine().getId())), server);
             } catch (URISyntaxException e) {
                 log.error("拼接URI失败", e);
                 return null;

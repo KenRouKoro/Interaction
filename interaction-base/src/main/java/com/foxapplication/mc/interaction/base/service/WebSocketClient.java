@@ -1,5 +1,7 @@
 package com.foxapplication.mc.interaction.base.service;
 
+import com.foxapplication.embed.hutool.log.Log;
+import com.foxapplication.embed.hutool.log.LogFactory;
 import com.foxapplication.mc.interaction.base.data.Server;
 import com.foxapplication.mc.interaction.base.event.EventBus;
 import com.foxapplication.mc.interaction.base.event.connect.ConnectEvent;
@@ -13,6 +15,7 @@ import java.nio.ByteBuffer;
  * WebSocketClient类是一个WebSocket客户端，继承自org.java_websocket.client.WebSocketClient类，并实现了Connect接口。
  */
 public class WebSocketClient extends org.java_websocket.client.WebSocketClient implements Connect {
+    private static Log log = LogFactory.get();
     private final Server server;
 
     /**
@@ -35,6 +38,7 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient i
     public void onOpen(ServerHandshake handshakedata) {
         ConnectManager.getConnectMap().put(server.getId(), this);
         ConnectManager.getServerMap().put(server.getId(), server);
+        log.info("与节点 {} 握手成功！",server.getId());
         EventBus.push(new ConnectEvent(server.getId(), ConnectStatus.OnOpen));
     }
 
@@ -68,6 +72,7 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient i
     @Override
     public void onClose(int code, String reason, boolean remote) {
         ConnectManager.removeServer(server);
+        log.info("连接{}关闭", server.getId());
         EventBus.push(new ConnectEvent(server.getId(), ConnectStatus.OnClose));
     }
 
@@ -79,6 +84,7 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient i
     @Override
     public void onError(Exception ex) {
         ConnectManager.removeServer(server);
+        log.info("连接{}关闭", server.getId());
         EventBus.push(new ConnectEvent(server.getId(), ConnectStatus.OnClose));
     }
 
