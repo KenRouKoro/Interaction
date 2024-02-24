@@ -1,0 +1,14 @@
+# 
+isCenter = false
+# 
+enableCenter = true
+# 
+ConnectToken = "HelloWorld"
+# 
+
+[centerServer]
+id = "Center"
+address = "127.0.0.1"
+useSSL = false
+port = 8080
+service = []

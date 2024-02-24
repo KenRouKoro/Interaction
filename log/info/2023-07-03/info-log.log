@@ -1,0 +1,42 @@
+[2023-07-03 14:45:48] [main] [INFO ] [org.springframework.data.repository.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2023-07-03 14:45:48] [main] [INFO ] [org.springframework.data.repository.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 58 ms. Found 1 JPA repository interfaces.
+[2023-07-03 14:45:48] [main] [INFO ] [org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'persistenceJPAConfig' of type [cn.korostudio.interaction.config.PersistenceJPAConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[2023-07-03 14:45:49] [main] [INFO ] [org.hibernate.jpa.internal.util.LogHelper] - HHH000204: Processing PersistenceUnitInfo [name: default]
+[2023-07-03 14:45:49] [main] [INFO ] [org.hibernate.Version] - HHH000412: Hibernate ORM core version 6.2.3.Final
+[2023-07-03 14:45:49] [main] [INFO ] [org.hibernate.cfg.Environment] - HHH000406: Using bytecode reflection optimizer
+[2023-07-03 14:45:49] [main] [INFO ] [org.hibernate.bytecode.internal.BytecodeProviderInitiator] - HHH000021: Bytecode provider name : bytebuddy
+[2023-07-03 14:45:49] [main] [INFO ] [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo] - No LoadTimeWeaver setup: ignoring JPA class transformer
+[2023-07-03 14:45:50] [main] [INFO ] [org.hibernate.bytecode.internal.BytecodeProviderInitiator] - HHH000021: Bytecode provider name : bytebuddy
+[2023-07-03 14:45:50] [main] [INFO ] [org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator] - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[2023-07-03 14:45:50] [main] [INFO ] [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2023-07-03 14:53:26] [main] [INFO ] [org.springframework.data.repository.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2023-07-03 14:53:26] [main] [INFO ] [org.springframework.data.repository.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 47 ms. Found 1 JPA repository interfaces.
+[2023-07-03 14:53:26] [main] [INFO ] [org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'persistenceJPAConfig' of type [cn.korostudio.interaction.config.PersistenceJPAConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[2023-07-03 14:53:26] [main] [INFO ] [org.hibernate.jpa.internal.util.LogHelper] - HHH000204: Processing PersistenceUnitInfo [name: default]
+[2023-07-03 14:53:26] [main] [INFO ] [org.hibernate.Version] - HHH000412: Hibernate ORM core version 6.2.3.Final
+[2023-07-03 14:53:27] [main] [INFO ] [org.hibernate.cfg.Environment] - HHH000406: Using bytecode reflection optimizer
+[2023-07-03 14:53:27] [main] [INFO ] [org.hibernate.bytecode.internal.BytecodeProviderInitiator] - HHH000021: Bytecode provider name : bytebuddy
+[2023-07-03 14:53:27] [main] [INFO ] [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo] - No LoadTimeWeaver setup: ignoring JPA class transformer
+[2023-07-03 14:53:27] [main] [INFO ] [org.hibernate.bytecode.internal.BytecodeProviderInitiator] - HHH000021: Bytecode provider name : bytebuddy
+[2023-07-03 14:53:28] [main] [INFO ] [org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator] - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[2023-07-03 14:53:28] [main] [INFO ] [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2023-07-03 14:53:29] [main] [INFO ] [base.com.foxapplication.mc.interaction.BaseClient] - 正在初始化Interaction核心
+[2023-07-03 14:53:29] [main] [INFO ] [base.com.foxapplication.mc.interaction.BaseClient] - 正在注册信息回调
+[2023-07-03 14:53:29] [main] [INFO ] [base.com.foxapplication.mc.interaction.BaseClient] - 正在注册基本事件
+[2023-07-03 14:53:29] [main] [INFO ] [base.com.foxapplication.mc.interaction.BaseClient] - 正在尝试链接中央节点
+[2023-07-03 14:53:29] [main] [INFO ] [base.com.foxapplication.mc.interaction.BaseClient] - 初始化完成
+[2023-07-03 15:08:35] [main] [INFO ] [org.springframework.data.repository.config.RepositoryConfigurationDelegate] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2023-07-03 15:08:35] [main] [INFO ] [org.springframework.data.repository.config.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 57 ms. Found 1 JPA repository interfaces.
+[2023-07-03 15:08:35] [main] [INFO ] [org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'persistenceJPAConfig' of type [cn.korostudio.interaction.config.PersistenceJPAConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[2023-07-03 15:08:35] [main] [INFO ] [org.hibernate.Version] - HHH000412: Hibernate ORM core version 6.2.3.Final
+[2023-07-03 15:08:35] [main] [INFO ] [org.hibernate.cfg.Environment] - HHH000406: Using bytecode reflection optimizer
+[2023-07-03 15:08:36] [main] [INFO ] [org.hibernate.bytecode.internal.BytecodeProviderInitiator] - HHH000021: Bytecode provider name : bytebuddy
+[2023-07-03 15:08:36] [main] [INFO ] [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo] - No LoadTimeWeaver setup: ignoring JPA class transformer
+[2023-07-03 15:08:36] [main] [INFO ] [org.hibernate.bytecode.internal.BytecodeProviderInitiator] - HHH000021: Bytecode provider name : bytebuddy
+[2023-07-03 15:08:37] [main] [INFO ] [org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator] - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[2023-07-03 15:08:37] [main] [INFO ] [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2023-07-03 15:08:38] [main] [INFO ] [base.com.foxapplication.mc.interaction.BaseClient] - 正在初始化Interaction核心
+[2023-07-03 15:08:38] [main] [INFO ] [base.com.foxapplication.mc.interaction.BaseClient] - 正在注册信息回调
+[2023-07-03 15:08:38] [main] [INFO ] [base.com.foxapplication.mc.interaction.BaseClient] - 正在注册基本事件
+[2023-07-03 15:08:38] [main] [INFO ] [base.com.foxapplication.mc.interaction.BaseClient] - 正在尝试链接中央节点
+[2023-07-03 15:08:38] [main] [INFO ] [base.com.foxapplication.mc.interaction.BaseClient] - 初始化完成

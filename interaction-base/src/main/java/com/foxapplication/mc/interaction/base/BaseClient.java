@@ -75,8 +75,9 @@ public class BaseClient {
      * 初始化方法，启动内部定时器，注册默认回调
      *
      * @param mine 服务器信息
+     * @param truePort 真实端口
      */
-    public static void init(Server mine) {
+    public static void init(Server mine,int truePort) {
         log.info("正在初始化Interaction基本核心");
 
         localFoxConfig = new LocalFoxConfig(InteractionBaseConfig.class);
@@ -123,7 +124,7 @@ public class BaseClient {
         if (!config.isOtherServer) {
             log.info("正在启动内置WS服务端，端口：{}", mine.getPort());
             bootstrap = new HttpBootstrap();
-            bootstrap.setPort(mine.getPort());
+            bootstrap.setPort(truePort);
             routeHandle = new WebSocketRouteHandler();
             routeHandle.route("/ws", new WebSocketServer());
             bootstrap.webSocketHandler(routeHandle);
