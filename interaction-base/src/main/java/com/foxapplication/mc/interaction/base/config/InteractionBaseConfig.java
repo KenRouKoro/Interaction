@@ -14,9 +14,8 @@ import lombok.Data;
 public class InteractionBaseConfig {
     /**
      * 中央节点ID。
-     * 不过这个值不会验证就是了。
      */
-    @FieldAnnotation(name = "中央节点ID", value = "中央节点ID,不过这个值不会验证就是了。")
+    @FieldAnnotation(name = "中央节点ID", value = "中央节点ID。")
     public String centerID = "Center";
 
     /**
